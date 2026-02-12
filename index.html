@@ -211,7 +211,7 @@
         const danceVideo = document.getElementById('danceVideo');
 
         // Make the NO button run away
-        noBtn.addEventListener('mouseenter', () => {
+        function moveNoButton() {
             const maxX = window.innerWidth - noBtn.offsetWidth - 100;
             const maxY = window.innerHeight - noBtn.offsetHeight - 100;
             
@@ -221,6 +221,15 @@
             noBtn.style.position = 'fixed';
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
+        }
+        
+        // For desktop - hover
+        noBtn.addEventListener('mouseenter', moveNoButton);
+        
+        // For mobile - touch (moves every time they try to tap)
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
         });
 
         // Handle YES button click
