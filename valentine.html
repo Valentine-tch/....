@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 60px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .heart {
+            font-size: 4em;
+            margin: 20px 0;
+        }
+
+        p {
+            font-size: 1.3em;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            position: relative;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        #yesBtn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        #yesBtn:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            background: #95a5a6;
+            color: white;
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        #noBtn:hover {
+            background: #7f8c8d;
+        }
+
+        .celebration {
+            display: none;
+        }
+
+        .celebration.show {
+            display: block;
+        }
+
+        .celebration h1 {
+            animation: none;
+            margin-bottom: 30px;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f39c12;
+            position: absolute;
+            animation: confetti-fall 3s linear;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .video-container {
+            margin: 30px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 350px;
+            background: #000;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .music-notes {
+            font-size: 2.5em;
+            margin-top: 20px;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-15px) rotate(10deg);
+                opacity: 0.8;
+            }
+        }
+
+        .love-message {
+            font-size: 1.2em;
+            color: #e74c3c;
+            margin-top: 25px;
+            font-weight: bold;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(231, 76, 60, 0.8);
+            }
+        }
+
+        .play-prompt {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Will You Be My Valentine? 💝</h1>
+            <div class="heart">❤️</div>
+            <p>I promise to make it special! 🌹</p>
+            <div class="buttons">
+                <button id="yesBtn">YES! 💕</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+        <div class="celebration">
+            <h1>Yay! You made my day! 🎉</h1>
+            <div class="video-container">
+                <video id="danceVideo" loop playsinline controls>
+                    <source src="dance_video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <p class="play-prompt">Click the video to play! 🎬</p>
+            <div class="music-notes">🎵 🎶 🎵</div>
+            <p class="love-message">Let's dance through this Valentine's together! 💖</p>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const container = document.querySelector('.container');
+        const content = document.querySelector('.content');
+        const celebration = document.querySelector('.celebration');
+        const danceVideo = document.getElementById('danceVideo');
+
+        // Make the NO button run away
+        noBtn.addEventListener('mouseenter', () => {
+            const maxX = window.innerWidth - noBtn.offsetWidth - 100;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 100;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        });
+
+        // Handle YES button click
+        yesBtn.addEventListener('click', () => {
+            content.style.display = 'none';
+            celebration.classList.add('show');
+            
+            // Try to play the video after a short delay
+            setTimeout(() => {
+                danceVideo.play().catch(err => {
+                    console.log("Autoplay prevented - user needs to click play:", err);
+                    // Video will have controls, so user can click to play
+                });
+            }, 500);
+            
+            // Create confetti burst
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    createConfetti();
+                }, i * 30);
+            }
+            
+            // Keep confetti going
+            setInterval(() => {
+                createConfetti();
+            }, 200);
+        });
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random() * 100 + '%';
+            
+            const colors = ['#e74c3c', '#f39c12', '#3498db', '#9b59b6', '#1abc9c', '#e91e63', '#ff0000', '#ffcc00'];
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.width = Math.random() * 10 + 5 + 'px';
+            confetti.style.height = confetti.style.width;
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
